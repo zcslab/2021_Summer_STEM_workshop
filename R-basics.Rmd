@@ -1,0 +1,535 @@
+---
+title: "R Basics for Beginners"
+author: "Sha Cao (adapted from online resources)"
+date: "09-10 June 2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Introduction
+
+
+
+### Get started with R
+
+* To get started, [download and install R](https://cran.r-project.org/). You should also [download and install RStudio](https://www.rstudio.com/). 
+
+* RStudio bundles code editor, console, command history, debugging, documentation and visualization in a single install. 
+
+* Within RStudio, you can check the current version of R by typing the command `version`. 
+
+* Across the R ecosystem, software is delivered as packages. 
+
+* RStudio comes with the `base` package and more. Additional packages can be installed. You can also list currently installed packages. Here are some examples:
+
+```
+##print
+print("Hello, world!")
+
+# Install package data.table
+install.packages("data.table")
+ 
+# List all installed packages with details
+installed.packages()
+ 
+# List all installed packages
+library()
+ 
+# Get help on base package
+library(help = "base")
+ 
+# Update or remove package
+update.packages("data.table")
+remove.packages("data.table")
+ 
+# Use a package
+library("data.table")
+ 
+# Find the version
+packageVersion("data.table")
+```
+
+Within RStudio, these shortcuts are useful:
+
+* Tab: Autocomplete a command on the console.
+* Up/Down Arrow: Navigate the command history to reuse commands.
+
+
+### Resources
+
+Here are some ways to get help: 
+
+```
+# Two ways of getting help on function str
+?str
+help(str)
+ 
+# Get help on only the arguments or examples of function dim
+args(dim)
+example(dim)
+ 
+# Search all help pages for a given phrase
+help.search("linear regression")
+```
+
+Here are some simple function calls for you to try:
+
+```
+ls()                         # list all R objects in current environment
+dir()                        # display content of current directory
+getwd()                      # display path of current working directory
+setwd("example1/data")       # change the working directory with relative path
+source("main.R")             # execute the named R script
+```
+
+
+
+
+### Script files
+
+
+* While you can enter commands directly into the R console, it is __highly__ recommended that you use a script file for your R code. As noted above, these script files have a ".R" extension. 
+
+* They are essentially plain text files that R interprets and runs. The code in the script file is passed to the R console. Script files allow you to save and annotate your code for future use. 
+
+*In R, comments are indicated with `#`. Anything after `#` is commented out and not run.
+
+### Setting your working directory
+
+Setting your working directory makes saving and uploading script files, data sets, and figures easier. To set your working directory to the desktop on a Mac, type
+
+```
+setwd("~/Desktop")
+```
+
+On a PC, it would be something like this:
+
+```
+setwd("C:\Users\yourname\Desktop")
+```
+
+You can get your current working directory with
+
+```{r}
+setwd("/Users/shacao 1/errands/basicR")
+getwd()
+```
+
+
+
+## Data Types
+
+You can store anything you do in R as an object with a name, then look at that object, run another command on it later, overwrite it, or delete it as you see fit. 
+
+R has the following basic types that are called atomic types: 
+
+
+* `logical`: Can take value TRUE or FALSE.
+* `integer`: Specified with suffix 'L'. Eg. 23L, -4L
+* `numeric`: Specified as a number without suffix. Eg. 23, -4, 2.12
+* `complex`: Complex numbers. Eg. 2+3i, -3-5i
+* `character`: Strings are specified as a sequence of characters.
+* `raw`: Raw bytes.
+
+Among the data types are the following: 
+
+* `vector`: Contains a sequence of items of the same type. Type is also called a mode in the context of vectors. This is most basic type. Items of a vector can be accessed using [].
+* `scalar`: A special form or `vector` which is of length 1.
+* `list`: Represented as a vector but can contain items of different types. Different columns can contain different lengths. Items of a list can be accessed using [[]]. This is a recursive data type: lists can contain other lists.
+* `array`: Vectors with attributes dim and dimnames.
+* `matrix`: A two-dimensional array.
+* `data.frame`: While all columns of a matrix have same mode, with data frames different columns can have different modes. This can be considered a type of list where all columns have same length.
+* `factor`: Dactor represents a finite set of values. We may also call factors as categories or enumerated types. It's also possible to specify an order for factors.
+
+
+![Source: Instituto de Física de Cantabria. http://venus.ifca.unican.es/Rintro/_images/dataStructuresNew.png](http://venus.ifca.unican.es/Rintro/_images/dataStructuresNew.png)
+
+## Objects in R
+
+
+### Scalars
+
+
+Here is a basic example. I want to create an object called `x` that has the value 2. I use the assignment operator, `<-`, to do this:
+
+```{r}
+x <- 2
+x
+# Scalar variables can be differentiated from vectors using str but not class
+a <- 3
+str(a)
+class(a)
+a <- c(3,4)
+str(a)
+class(a)                         # same output as scalar
+```
+
+You can use R as a calculator. Storing various objects and calculations as you go for future use.
+
+```{r}
+y <- log(10)
+x + y
+a <- x + y^2
+a
+
+```
+
+The objects `x`, `y,`, and `a` are simple scalars. They only have one value. Next, we'll explore some of the most common types of R objects: vectors, matrices, lists, and data frames.
+
+
+
+### Vectors
+
+To create a vector of numbers, use the `c` function.
+
+```{r}
+my_vector <- c(1, 2, 3, 4, 5)
+my_vector
+```
+
+To create a sequence of numbers, use the colon `:` or the `seq` function. To repeat a pattern, use `rep`. This makes a sequence from 0 to 10, increasing by 1 each time.
+
+```{r}
+my_seq <- 0:10
+my_seq
+```
+
+This makes a sequence from 0 to 10, increasing by 2 each time.
+
+```{r}
+my_seq2 <- seq(0, 10, by = 2)
+my_seq2
+```
+
+This uses `c()` to repeat the pattern "1, 2, 3" 8 times.
+
+```{r}
+my_rep <- rep(c(1, 2, 3), times = 8)
+my_rep
+```
+
+To reference specific elements from a vector, use the square brackets `[]`. This displays the 4th element in `my_seq`
+
+```{r}
+el_4 <- my_seq[4]
+el_4
+```
+
+This uses `c()` to reference multiple elements.
+
+```{r}
+el_4_and_6 <- my_seq[c(4, 6)]
+el_4_and_6
+```
+
+This makes a sequence with all of the elements of `my_seq` except the 3rd element.
+
+```{r}
+no_3rd_el <- my_seq[-3]
+no_3rd_el
+```
+
+This replaces an element in your vector.
+
+```{r}
+my_seq[c(1, 3)]<-c(22, 60)
+my_seq
+```
+
+
+### Matrices
+
+To create a matrix, use the `matrix` function. There are several arguments available for this function. To learn about them, type `?matrix`.
+
+This makes a 3 x 3 matrix with the numbers 1 through 9, entering by columns. Notice the use of `:`.
+
+```{r}
+my_mat <- matrix(1:9, nrow = 3, ncol = 3)
+my_mat
+```
+
+We still use square brackets to reference elements of a matrix, but this time in 2 dimensions. This references the element in row 2, column 2.
+
+```{r}
+row2_col2 <- my_mat[2, 2]
+row2_col2
+```
+
+This references the entire third row.
+
+```{r}
+row_3 <- my_mat[3, ]
+row_3
+```
+
+To make a matrix from previously defined vectors use `rbind` or `cbind`.
+
+```{r}
+v1 <- c(1, 2, 3, 4, 5)
+v2 <- c(1, 2, 1, 2, 1)
+v3 <- c(.1, .2, .7, .4, .1)
+data_mat <- cbind(v1, v2, v3)
+data_mat
+```
+
+### Lists
+
+A list is basically a vector that may contain multiple types of data (e.g. strings, numbers, or even matrices). You can probably guess the function to create a list.
+
+```{r}
+my_list <- list(7, "Hello World", data_mat, a)
+my_list
+```
+
+You can reference an element of a list the same way you would a vector.
+
+```{r}
+my_list[2]
+```
+
+Lists are generally not as widely used as other objects, but as data sets and analysis become more complex, their ability to hold multiple types of data becomes very powerful.
+
+### Data frames
+
+Data frames are arguably the most important type of object in R. They are made up of other objects, like vectors and lists. Data frames are similar to data sets that are used in Stata. They have rows and columns and can be visualized like a spreadsheet.
+
+Let's create a simple data frame.
+
+```{r}
+my_data_frame <- as.data.frame(data_mat)
+my_data_frame
+```
+
+Notice that the column names are preserved from the matrix we created earlier out of pre-defined vectors. We can change the column names to something more descriptive. This is a bit convoluted. Let's change "v2" to "Sex".
+
+```{r}
+colnames(my_data_frame)[colnames(my_data_frame)=="v2"] <- "Sex"
+colnames(my_data_frame)
+```
+
+We can also change the contents of the data frame itself. Instead of numbers for sex, we can use words. This syntax for recoding variables isn't the most intuitive or compact. Later on, we'll cover a simpler way of recoding.
+
+```{r}
+my_data_frame$Sex[my_data_frame$Sex==1] <- "Female"
+my_data_frame$Sex[my_data_frame$Sex==2] <- "Male"
+my_data_frame
+class(my_data_frame)
+str(my_data_frame)
+```
+
+In general, the `$` operator is how you refer to specific variables within a data frame.
+
+We can use `table` to describe the breakdown of sex within our data frame.
+
+```{r}
+table(my_data_frame$Sex)
+```
+
+
+
+## Operators, Control Structures and Functions
+
+Here are some basic operations we can do on data: 
+
+```{r}
+v1 <- c(1:5)
+ 
+# Some examples showing arithmetic operations
+v1 + 2                   # value 2 is recycled for the entire vector
+v1 + v1                  # element-wise addition
+v1 - 2                   # element-wise subraction
+ 
+v1 / 2                   # element-wise division
+v1 %/% 2                 # integer division, retain only integer part
+v1 / v1                  # element-wise division
+v1 * 2                   # element-wise multiplication
+v1 ^ 2                   # exponential operator, can alternatively use **
+v1 %% 2                  # modulo operator
+ 
+m1 <- matrix(1:6, nrow=2, ncol=3, byrow=T)
+m1 + m1                  # matrix element-wise addition
+m1 * m1                  # matrix element-wise multiplication
+m1 %*% t(m1)             # matrix multiplication of m1 with its transpose
+ 
+m1 <- matrix(c(1:4, 11:15), nrow=3)
+m1inv <- solve(m1)       # get inverse of matrix
+m1 %*% m1inv             # result is an identity matrix
+ 
+# Some examples showing logical operations
+v1 > 2
+v1 <= 2
+!(v1 <= 2)
+v1 == 2
+v1 != 2
+v1 > 2 | v1 < 4
+v1 > 2 & v1 < 4
+```
+
+For control structures, we have `if-else`, `for` loops, `while` loops, `repeat` loops. Also available are `ifelse` and `switch`. Here are some examples: 
+
+```{r}
+# Example of a for loop and if-else
+for (val in 1:10) {
+    if (val %% 2 == 0) {
+        next
+        print(paste(val, "is an even number.")) # this will not be printed
+    }
+    else if (val > 5) {
+        print(paste(val, "is an odd number greater than 5."))
+        break
+    }
+    else {
+        print(paste(val, "is an odd number less than or equal to 5."))
+    }
+}
+ 
+# Example of a while loop
+names <- c("Manoj", "Anjali", "Poonam", "Kumar", "Gautam")
+needle <- "Poonam"
+i = 1
+foundAt = 0
+while (foundAt == 0) {
+    if (names[i]==needle) {
+        foundAt = i
+    }
+    i = i + 1
+}
+print(paste("Found at index", foundAt))
+ 
+# Repeat is an infinite loop used with a break
+i = 1
+repeat {
+    if (names[i]==needle) {
+        foundAt = i
+        break
+    }
+    i = i + 1
+}
+print(paste("Found at index", foundAt))
+ 
+# Example showing the use of ifelse
+grades <- c(55, 65, 43, 67, 22, 83)
+ifelse(grades >= 50, "pass", "fail")
+ 
+# Without ifelse, this would be the long way
+results <- grades >= 50                        # get a logical vector
+results[results] <- "pass"                     # also coerces to character vector
+results[results=="FALSE"] <- "fail"             
+ 
+# Example showing the use of switch
+# C: 0-24, B: 25-49, A: 50:74, A+: 75-100
+for (g in ceiling(grades/25)) {
+    print(switch(g, "C", "B", "A", "A+"))
+}
+```
+
+
+## Working with Data
+
+R offers many ways to read data from files in many formats. It's common to read data into `data.frame` type. Reading data into `data.table` type is more suitable for large datasets. Here are a couple of examples: 
+
+```{r}
+# Download file from URL if not already downloaded
+if (!file.exists("atheletes.csv"))
+    download.file("https://raw.githubusercontent.com/flother/rio2016/master/athletes.csv", 
+                  "atheletes.csv", method="curl", quiet=T)
+ 
+# Read from .csv file into a data.frame
+dat <- read.csv("atheletes.csv",header=TRUE, sep=",", skip=0L)
+ 
+# Read from .csv file into a data.table (assuming that data.table package is installed)
+library("data.table")
+dat <- fread("atheletes.csv",sep = ",", header = TRUE, stringsAsFactors = TRUE, )
+dat <- fread("atheletes.csv",sep = ",", header = TRUE, stringsAsFactors = TRUE, select=c("name","nationality"))
+    
+# Read from .xlsx file into a data.table (assuming that readxl package is installed)
+library("readxl")
+dat_expr_1 <- read_excel("test-expr.xlsx",sheet=1,col_names = TRUE,  na = "", skip = 0)
+dat_expr_2 <- read_excel("test-expr.xlsx",sheet=2,col_names = TRUE,  na = "", skip = 0)
+dat_expr_11 <- data.frame(dat_expr_1)
+
+# Read from .txt file into a data.table
+dat <- read.table("test.txt",sep=",",header=T,skip=0)
+
+# Save R objects into file and restore them later
+x <- 1:10
+y <- LETTERS[1:10]
+save(x, y, file = "backup.RData")
+rm(x)
+rm(y)
+load("backup.RData")
+x
+y
+```
+
+## Basic Data Analysis
+
+R comes with pre-loaded datasets that can be handy for beginners learning the language. In the following examples, some operations may not make sense from the point of analysis but they are shown only to illustrate the features of R. Here are a few things to try: 
+
+```
+data()                                            # display a list of pre-loaded datasets
+ 
+# Basic information about the data
+help(mtcars)                                      # display help on pre-loaded dataset mtcars
+```
+
+```{r basicanalysis, fig.height=4}
+str(mtcars)                                       # mtcars is of type data.frame
+dim(mtcars)                                       # display the dimensions
+colnames(mtcars)                                  # display the column names
+mtcars$mpg                                        # display column mpg
+object.size(mtcars)                               # size in bytes
+format(object.size(mtcars), units="KB")           # size in kilobytes
+ 
+# Peeking into the data
+head(mtcars)                                      # display only the first 6 rows
+head(mtcars, 10)                                  # display only the first 10 rows
+tail(mtcars)                                      # display only the last 6 rows
+tail(mtcars[c("mpg","hp")], 10)                   # display last 10 rows of only two columns
+ 
+# Getting a subset of data
+subset(mtcars, mpg>20, c("mpg", "hp"))
+subset(mtcars, mpg==max(mpg))
+subset(mtcars, mpg==max(mpg), mpg)
+ 
+# Basic analysis
+summary(mtcars)                                   # calculate min, max, mean, etc. by columns
+colMeans(mtcars)                                  # calculate mean by columns
+colSums(mtcars)                                   # calculate sum by columns
+rowSums(mtcars)                                   # calculate sum by rows
+cor(mtcars)                                       # correlation of variables
+ 
+# Histogram analysis
+table(mtcars$cyl)                                 # get count of cars by no. of cylinders
+table(mtcars$cyl, mtcars$gear)                    # get count of cars by no. of cylinders and no. of gears
+table(mtcars[c("cyl", "gear")])                   # a better syntax since column names are preserved
+table(cyl=mtcars$cyl, gear=mtcars$gear)           # an alternative syntax
+table(mtcars[c("cyl", "gear")], exclude=c("4"))   # exclude specified factors
+ 
+# Quantile analysis
+quantile(mtcars$mpg)                              # miles per gallon: get its 4 quartiles
+quantile(mtcars$mpg, probs=seq(0,1,length=4))     # split the data into 3 quantiles (4 points)
+groups <- cut(mtcars$mpg,                      
+              breaks=quantile(mtcars$mpg),        # mark data to the quartile where it belongs
+              include.lowest = T)                 # include the lowest point in 1st quartile
+table(groups, mtcars$cyl)                         # analyze no. of cylinders by mpg quartiles
+ 
+# Aggregation
+aggregate(mpg ~ cyl, data=mtcars, summary)        # summary of miles per gallon grouped by no. of cylinders
+ag <- aggregate(hp ~ .,                           # calculate mean of horsepower with cyl and gear as axes of analysis
+        data=mtcars[,c("hp","cyl","gear")], 
+        mean)
+xtabs(hp ~ ., data=ag)                            # display the contingency table
+ 
+# Using third-party libraries
+library(psych)
+describe(mtcars)                                  # get more advanced stats
+library(modeest)
+mfv(mtcars$cyl)                                       # most frequent value
+```
