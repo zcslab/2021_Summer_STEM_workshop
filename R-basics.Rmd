@@ -4,8 +4,6 @@ author: "Sha Cao (adapted from online resources)"
 date: "09-10 June 2021"
 output: 
   rmarkdown::github_document
-  html_document: default
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
