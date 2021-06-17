@@ -3,7 +3,8 @@ title: "R Basics for Beginners"
 author: "Sha Cao (adapted from online resources)"
 date: "09-10 June 2021"
 output: 
-  rmarkdown::github_document
+  html_document:
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
