@@ -2,11 +2,11 @@
 
 
 
-1. ## Jun 8 General Team Introduction and programming basics (Lecturer: Chi Zhang, Sha Cao, Li Chen, Yijie Wang, Pengtao Dang (TA)) 
+## 1. Jun 8 General Team Introduction and programming basics (Lecturer: Chi Zhang, Sha Cao, Li Chen, Yijie Wang, Pengtao Dang (TA)) 
 
-2. ## Jun 9 Basic R introduction (Lecturer: Sha Cao) 
+## 2. Jun 9 Basic R introduction (Lecturer: Sha Cao) 
 
-3. ## Jun 10 Basic R introduction (Lecturer: Sha Cao) 
+## Jun 10 Basic R introduction (Lecturer: Sha Cao) 
 
 ## Jun 11 Hands-on for R basics (Lecturer: Chi Zhang, Pengtao Dang) 
 
