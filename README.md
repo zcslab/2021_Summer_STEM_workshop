@@ -18,7 +18,7 @@
 
 ## Jun 21 Examples of computational biology research by using R 1 (Lecturer: Chi Zhang) 
 
-## Jun 22 Examples of computational biology research by using R 2 (Lecturer: Changlin Wan) 
+## Jun 22 Single cell RNA-seq data analysis (Lecturer: Changlin Wan) 
 
 ## Jun 23 Basic python introduction (Lecturer: Pengtao Dang) 
 
@@ -30,4 +30,4 @@
 
 ## Jun 30 Hands-on of python programming (Lecturer: Pengtao Dang) 
 
-## Jul 1 Hands-on of python programming (Lecturer: Changlin Wan) 
+## Jul 1 Introduction of Deconvolution (Lecturer: Wennan Chang) 
